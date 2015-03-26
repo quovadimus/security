@@ -1,0 +1,5 @@
+#!/bin/sh
+# Require Admin Password to Turn On Wifi
+
+
+/usr/libexec/airportd prefs RequireAdminPowerToggle=YES
