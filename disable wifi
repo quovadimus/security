@@ -1,0 +1,19 @@
+#!/bin/sh
+## Script to turn off Wifi; from JAMFNation Article https://jamfnation.jamfsoftware.com/discussion.html?id=12853
+# posted by user acdesigntech
+
+
+## Is this a retina macbook? If so we need to reverse the en designations: en1 for wired, en0 for wireless
+ModelType=`system_profiler SPHardwareDataType | grep -e "Model Identifier" | awk '{print substr($3,1,7)}'`
+/usr/sbin/networksetup -listallhardwareports | grep "Thunderbolt Ethernet"
+Thunderbolt=`echo $?`
+if [ "$Thunderbolt" == "0" -a "$ModelType" == "MacBook" ]; then ##We have a retina, reverse the polarity!
+    WiredEthernet="en1"
+    WirelessEthernet="en0"
+else
+    WiredEthernet="en0"
+    WirelessEthernet="en1"
+fi
+
+## Turn off Airport
+    networksetup -setairportpower $WirelessEthernet off
